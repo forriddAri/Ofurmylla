@@ -1,6 +1,6 @@
 package hi.ofurmylla;
 
-public class Model {
+public class MylluModel {
     private static final int Dim = 3;
     private static final String Takn1 = "-fx-Background-color: #00000ff";
     private static final String Takn2 = "-fx-Background-color: #ff00000";
@@ -11,23 +11,24 @@ public class Model {
     private int lastBordD;
     private boolean aLeik;
 
-    public Model(){
+    public MylluModel(){
         ofurMylla = new Boolean[Dim][Dim][Dim][Dim];
         globalBord = new Boolean[Dim][Dim];
         lastBordL = Dim;
         lastBordD = Dim;
         aLeik = true;
     }
+    //Á að skoða hvort myllubox sé fullt
     private boolean localBordFullt(int bordLina, int bordDalkur){
         for ( int bilLina = 0; bilLina < Dim ; bilLina++ ) {
             for ( int bilDalkur = 0; bilDalkur < Dim ; bilDalkur++ ) {
                 if (globalBord[bordLina][bordDalkur] == null && !localBordFullt(bordLina,bordDalkur)) {
-                    return true;
+                    return false;
                 }
             }
 
         }
-        return false;
+        return true;
     }
     public boolean gildStada(){
         for (int bordLina = 0; bordLina < Dim ; bordLina++ ) {
