@@ -1,104 +1,129 @@
 package hi.ofurmylla;
-
 public class MylluModel {
-    private static final int Dim = 3;
-    private static final String Takn1 = "-fx-Background-color: #00000ff";
-    private static final String Takn2 = "-fx-Background-color: #ff00000";
 
-    private final Boolean[][][][] ofurMylla;
-    private final Boolean[][] globalBord;
-    private int lastBordL;
-    private int lastBordD;
-    private boolean aLeik;
+    private static final int DIMENSIONS = 3;
+    private static final String RED = "-fx-background-color: #0000ff";
+    private static final String BLUE = "-fx-background-color: #ff0000";
 
-    public MylluModel(){
-        ofurMylla = new Boolean[Dim][Dim][Dim][Dim];
-        globalBord = new Boolean[Dim][Dim];
-        lastBordL = Dim;
-        lastBordD = Dim;
-        aLeik = true;
+    // Represents the entire board
+    private final Boolean[][][][] ultimateBoard;
+    // Represents just the global board (the 3 x 3 local boards)
+    private final Boolean[][] globalBoard;
+    // indices of the local board played on
+    private int lastBoardR;
+    private int lastBoardC;
+    private boolean currPlayer;
+
+    public MylluModel() {
+        ultimateBoard = new Boolean[DIMENSIONS][DIMENSIONS][DIMENSIONS][DIMENSIONS];
+        globalBoard = new Boolean[DIMENSIONS][DIMENSIONS];
+        lastBoardR = DIMENSIONS;
+        lastBoardC = DIMENSIONS;
+        currPlayer = true;
     }
-    //Á að skoða hvort myllubox sé fullt
-    private boolean localBordFullt(int bordLina, int bordDalkur){
-        for ( int bilLina = 0; bilLina < Dim ; bilLina++ ) {
-            for ( int bilDalkur = 0; bilDalkur < Dim ; bilDalkur++ ) {
-                if (globalBord[bordLina][bordDalkur] == null && !localBordFullt(bordLina,bordDalkur)) {
+
+    // Determine if a local board has is "tied" or not (i.e. no winner and no valid
+    // moves)
+    private boolean localBoardFull(int boardRow, int boardCol) {
+        for (int spaceRow = 0; spaceRow < DIMENSIONS; spaceRow++) {
+            for (int spaceCol = 0; spaceCol < DIMENSIONS; spaceCol++) {
+                if (ultimateBoard[boardRow][boardCol][spaceRow][spaceCol] == null) {
                     return false;
                 }
             }
-
         }
         return true;
     }
-    public boolean gildStada(){
-        for (int bordLina = 0; bordLina < Dim ; bordLina++ ) {
-            for (int bordDalkur = 0; bordDalkur < Dim ;bordDalkur++ ) {
-                if (globalBord[bordLina][bordDalkur] == null && !localBordFullt(bordLina,bordDalkur)) {
+
+    // Determine if the game is still playable (i.e. still active moves)
+    public boolean validGameState() {
+        for (int boardRow = 0; boardRow < DIMENSIONS; boardRow++) {
+            for (int boardCol = 0; boardCol < DIMENSIONS; boardCol++) {
+                if (globalBoard[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)) {
                     return true;
                 }
             }
         }
         return false;
     }
-    public void setLastBord(int lina, int dalkur){
-        lastBordL = lina;
-        lastBordD = dalkur;
-        if (globalBord[lina][dalkur] != null || localBordFullt(lina, dalkur)) {
-            lastBordL = Dim;
-            lastBordD = Dim;
+
+    // Set the new position of the allowed playable board/boards
+    public void setLastBoard(int row, int col) {
+        lastBoardR = row;
+        lastBoardC = col;
+        // edge case to check if a player has sent his opponent to an unplayable/invalid board
+        // if so the opponent can move on any board not won/full
+        if (globalBoard[row][col] != null || localBoardFull(row, col)) {
+            lastBoardR = DIMENSIONS;
+            lastBoardC = DIMENSIONS;
         }
     }
 
-    //Ákveður hvor leikur sé löglegur
-    public boolean leikurleifdur(int bordLina,int bordDalkur, int bilLina, int bilDalkur){
-        boolean bilOpid = ofurMylla[bordLina][bordDalkur][bilLina][bilDalkur] == null;
-        //Ef gamestate er löglegt og það er veljanlegur reitur fær leikmaður að gera
-        return (loglegtBord(bordLina,bordDalkur) && bilOpid);
-    }
-    public boolean loglegtBord(int bordLina, int bordDalkur){
-        return (globalBord[bordLina][bordDalkur] == null && !localBordFullt(bordLina,bordDalkur))
-        && (lastBordL == Dim || bordLina == lastBordL && bordDalkur == lastBordD);
+    // Determine if the move played at is a valid/playable move
+    public boolean validMove(int boardRow, int boardCol, int spaceRow, int spaceCol) {
+        boolean spaceOpen = ultimateBoard[boardRow][boardCol][spaceRow][spaceCol] == null;
+        // if the board is valid, and the space is open, the player can move
+        return (validBoard(boardRow, boardCol) && spaceOpen);
     }
 
-    private boolean bordSigurvegari(Boolean[][] bord){
-        //Skoðar láréttan sigur
-        for (int lina = 0; lina < Dim; lina++){
-            if (bord[lina][0] != null && bord[lina][0] == bord[lina][1] && bord[lina][0] == bord[lina][2]) {
+    // Determine if the local board is a valid/playable board
+    public boolean validBoard(int boardRow, int boardCol) {
+        return (globalBoard[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)
+                && (lastBoardR == DIMENSIONS || boardRow == lastBoardR && boardCol == lastBoardC));
+    }
+
+    // Algorithm to check for a win (i.e. 3 in a row) of a 2D array
+    private boolean boardWinner(Boolean[][] board) {
+        // check horizontals
+        for (int row = 0; row < DIMENSIONS; row++) {
+            if (board[row][0] != null && board[row][0] == board[row][1] && board[row][0] == board[row][2]) {
                 return true;
             }
         }
-        //skoðar Lóðréttan sigur
-        for (int dalkur = 0; dalkur < Dim ; dalkur ++ ) {
-            if (bord[0][dalkur] != null && bord[0][dalkur] == bord[1][dalkur] && bord[0][dalkur] == bord[2][dalkur]) {
+        // check verticals
+        for (int col = 0; col < DIMENSIONS; col++) {
+            if (board[0][col] != null && board[0][col] == board[1][col] && board[0][col] == board[2][col]) {
                 return true;
             }
         }
-        //skoðar ská sigur
-        return (bord[0][0] != null && bord[0][0] == bord[1][1] && bord[0][0] == bord[2][2]) || (bord[0][2]
-                != null && bord[0][2] == bord[1][1] && bord[0][2] == bord[2][0]);
-    }
-    //Ákvarðar hvort myllubox sé unnið
-    public boolean bordUnnid(int bordLina, int bordDalkur){
-        return globalBord[bordLina][bordDalkur] != null;
-    }
-    public boolean mylluboxSigurvegari(int bordL, int bordD){
-        return bordSigurvegari(ofurMylla[bordL][bordD]);
-    }
-    //Ákvarðar hvort leikur sé uninn
-    public boolean globalBordUnnid(){
-        return bordSigurvegari(globalBord);
-    }
-    public void setMyllubox(int bordLina,int bordDalkur, int bilLina,int bilDalkur){
-        ofurMylla[bordLina][bordDalkur][bilLina][bilDalkur] = aLeik;
-    }
-    public void setMylla(int bordLina, int bordDalkur){
-        globalBord[bordLina][bordDalkur] = aLeik;
-    }
-    //skiptir um leikmann
-    public String getTaknStyle(){
-        return aLeik ? Takn1 : Takn2;
+
+        // check diagonals
+        return (board[0][0] != null && board[0][0] == board[1][1] && board[0][0] == board[2][2])
+                || (board[0][2] != null && board[0][2] == board[1][1] && board[0][2] == board[2][0]);
     }
 
+    // Determine if a specific local board is won or not
+    public boolean boardWon(int boardRow, int boardCol) {
+        return globalBoard[boardRow][boardCol] != null;
+    }
 
+    // Determine if someone won a local board
+    public boolean localBoardWinner(int boardR, int boardC) {
+        return (boardWinner(ultimateBoard[boardR][boardC]));
+    }
 
+    // Determine if someone won the game
+    public boolean globalBoardWinner() {
+        return boardWinner(globalBoard);
+    }
+
+    // Update local board value
+    public void setLocalBoard(int boardRow, int boardCol, int spaceRow, int spaceCol) {
+        ultimateBoard[boardRow][boardCol][spaceRow][spaceCol] = currPlayer;
+    }
+
+    // Update global board value
+    public void setGlobalBoard(int boardRow, int boardCol) {
+        globalBoard[boardRow][boardCol] = currPlayer;
+    }
+
+    // Change who the current player is
+    public void togglePlayer() {
+        currPlayer = !currPlayer;
+    }
+
+    // Give the controller the current player's style
+    public String getPlayerStyle() {
+        return currPlayer ? RED : BLUE;
+    }
 }

@@ -16,112 +16,128 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MylluController implements Initializable {
-    private static final String HOVER = "-fx-Background-color: #e0e084;";
-    private static final String TOMUR = "-fx-Background-color: #e0e0e0;";
+
+    private static final String HIGHLIGHT = "-fx-background-color: #FFFFD4";
+    private static final String EMPTY = "-fx-background-color: #00000000";
+
     private MylluModel model;
     @FXML
-    private GridPane Mylla;
+    private GridPane globalBoard;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model = new MylluModel();
-        //highlightNextMyllubox();
+        highlightNextBoard();
     }
 
-    //Þegar ytt er á takka
-    public void Krossa(ActionEvent krossa) {
-        Button reitur = (Button) krossa.getSource();
-        geraLeik(reitur);
+    // Controller recognizes a button was pressed
+    public void handleButtonToggle(ActionEvent event) {
+        // button that was pressed
+        Button square = (Button) event.getSource();
+        performMove(square);
     }
 
-    private void geraLeik(Button reitur) {
-        int reiturL = GridPane.getRowIndex(reitur);
-        int reiturD = GridPane.getColumnIndex(reitur);
-        // row index af Mylluborði
-        int bordL = GridPane.getRowIndex(reitur.getParent());
-        //col index af Mylluborði
-        int bordD = GridPane.getColumnIndex(reitur.getParent());
-        if (model.leikurleifdur(bordL,bordD,reiturL,reiturD)) {
-            //leikmadur á leik
-            updateReitView(reitur);
-            model.setMyllubox(bordL, bordD, reiturL, reiturD);
-            if (model.mylluboxSigurvegari(bordL,bordD)) {
-                //leikmadur sigrar myllubox
-                GridPane bord = (GridPane) reitur.getParent();
-                updateBordView(bord);
-                model.setMylla(bordL,bordD);
-                athugaSigurvegara();
+    // Control what happens to the view and the model
+    private void performMove(Button square) {
+        int squareR = GridPane.getRowIndex(square);
+        int squareC = GridPane.getColumnIndex(square);
+        // row index of the local board
+        int boardR = GridPane.getRowIndex(square.getParent());
+        // col index of the local board
+        int boardC = GridPane.getColumnIndex(square.getParent());
+        if (model.validMove(boardR, boardC, squareR, squareC)) {
+            // player moved
+            updateSquareView(square);
+            model.setLocalBoard(boardR, boardC, squareR, squareC);
+            if (model.localBoardWinner(boardR, boardC)) {
+                // player won the local board
+                GridPane board = (GridPane) square.getParent();
+                updateBoardView(board);
+                model.setGlobalBoard(boardR, boardC);
+                checkWinner();
             }
-            athugaJafntefli();
-            endaLeik(reiturL,reiturD);
+            checkTie();
+            endTurn(squareR, squareC);
         }
     }
-    //skoðahvort til sé leifilegur leikur
-    private void athugaJafntefli() {
-        if (!model.gildStada()) {
-            enginnVann();
+
+    // Determine if there are any valid moves left, if not, it's a tie game
+    private void checkTie() {
+        if (!model.validGameState()) {
+            // no valid moves left
+            nobodyWon();
         }
     }
-    //Skoðahvort leikmaður vann
-    private void athugaSigurvegara() {
-        if (model.globalBordUnnid()) {
-            leikmadurVann();
+
+    // Determine if a player won the game
+    private void checkWinner() {
+        if (model.globalBoardWinner()) {
+            // player won the game!
+            playerWon();
         }
     }
-    //uppfærir logic fyrir næsta leik
-    private void endaLeik(int bordL, int bordD) {
-        model.setLastBord(bordL, bordD);
-        model.getTaknStyle();
-        //highlightNextMyllubox();
+
+    // update logic for the next players turn
+    private void endTurn(int nextBoardR, int nextBoardC) {
+        model.setLastBoard(nextBoardR, nextBoardC);
+        model.togglePlayer();
+        highlightNextBoard();
     }
 
-    //skoða hvort það sé sigurvegari
-    private void enginnVann(){
-        Mylla.getChildren().clear();
-        Mylla.getStyleClass().clear();
-        Label sigurvegari = new Label("Jafnteffli!");
+    // view displayed if nobody won
+    private void nobodyWon() {
+        globalBoard.getChildren().clear();
+        globalBoard.getStyleClass().clear();
+        globalBoard.setStyle("-fx-background-color: #000000");
+        Label winner = new Label("TIE!");
+        updateLabel(winner);
     }
 
-    //uppfæra leikbord eftir að leikmaður vinnur
-    private void leikmadurVann() {
-        updateBordView(Mylla);
-        Label sigurvegari = new Label("Þú vannst!");
-        updateLabel(sigurvegari);
+    // view displayed if a player won the game
+    private void playerWon() {
+        updateBoardView(globalBoard);
+        Label winner = new Label("YOU WON!");
+        updateLabel(winner);
     }
 
-    private void updateLabel(Label label){
-        label.setFont(new Font("Comic Sans", 50));
+    // sets view of the label correctly for end game
+    private void updateLabel(Label label) {
+        label.setFont(new Font("Arial", 50));
         label.setTextFill(Paint.valueOf("WHITE"));
         label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(Double.MAX_VALUE);
         label.setAlignment(Pos.CENTER);
-        Mylla.add(label, 1, 1);
+        globalBoard.add(label, 1, 1);
     }
 
-    //uppfærir leikbord eftir að ýtt er á takka
-    private void updateReitView(Button reitur) {
-        reitur.setStyle(model.getTaknStyle());
-        reitur.setVisible(true);
-        reitur.setDisable(true);
+    // update the view when a valid button is pressed
+    private void updateSquareView(Button square) {
+        square.setStyle(model.getPlayerStyle());
+        square.setOpacity(100.0);
+        square.setDisable(true);
     }
 
-    private void updateBordView(GridPane bord) {
-        bord.getChildren().clear();
-        bord.getStyleClass().clear();
-        bord.setStyle(model.getTaknStyle());
+    // update the view when a local board is won
+    private void updateBoardView(GridPane board) {
+        // update view
+        board.getChildren().clear();
+        board.getStyleClass().clear();
+        board.setStyle(model.getPlayerStyle());
     }
 
-    private void highlightNextMyllubox() {
-        ObservableList<Node> myllubox = Mylla.getChildren();
-        for (Node bord : myllubox){
-            int bordDalkur = GridPane.getColumnIndex(bord);
-            int bordLina = GridPane.getRowIndex(bord);
-            if (!model.bordUnnid(bordLina, bordDalkur)) {
-                bord.setStyle(TOMUR);
+    // un-highlight previous boards and highlight the new playable local
+    // board/boards
+    private void highlightNextBoard() {
+        ObservableList<Node> boards = globalBoard.getChildren();
+        for (Node board : boards) {
+            int boardRow = GridPane.getRowIndex(board);
+            int boardCol = GridPane.getColumnIndex(board);
+            if (!model.boardWon(boardRow, boardCol)) {
+                board.setStyle(EMPTY);
             }
-            if (!model.bordUnnid(bordLina, bordDalkur)) {
-                bord.setStyle(HOVER);
+            if (model.validBoard(boardRow, boardCol)) {
+                board.setStyle(HIGHLIGHT);
             }
         }
-        }
     }
+}
