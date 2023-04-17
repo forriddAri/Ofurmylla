@@ -30,50 +30,48 @@ public class MylluController implements Initializable {
         highlightNextBoard();
     }
 
-    // Controller recognizes a button was pressed
+    // Controller sér að ýtt er á takka
     public void handleButtonToggle(ActionEvent event) {
-        // button that was pressed
-        Button square = (Button) event.getSource();
-        performMove(square);
+        // Takki sem ýtt er á
+        Button reitur = (Button) event.getSource();
+        performMove(reitur);
     }
 
-    // Control what happens to the view and the model
-    private void performMove(Button square) {
-        int squareR = GridPane.getRowIndex(square);
-        int squareC = GridPane.getColumnIndex(square);
-        // row index of the local board
-        int boardR = GridPane.getRowIndex(square.getParent());
-        // col index of the local board
-        int boardC = GridPane.getColumnIndex(square.getParent());
-        if (model.validMove(boardR, boardC, squareR, squareC)) {
+    // Stjórna hvað gerist á leikborði
+    private void performMove(Button reitur) {
+        int reiturL = GridPane.getRowIndex(reitur);
+        int reiturD = GridPane.getColumnIndex(reitur);
+        // Línu index í mylluboxi í notkun
+        int boardR = GridPane.getRowIndex(reitur.getParent());
+        // Dálka index af mylluboxi í notkun
+        int boardC = GridPane.getColumnIndex(reitur.getParent());
+        if (model.validMove(boardR, boardC, reiturL, reiturD)) {
             // player moved
-            updateSquareView(square);
-            model.setLocalBoard(boardR, boardC, squareR, squareC);
+            updateReitur(reitur);
+            model.setLocalBoard(boardR, boardC, reiturL, reiturD);
             if (model.localBoardWinner(boardR, boardC)) {
-                // player won the local board
-                GridPane board = (GridPane) square.getParent();
+                // Annarhvor leikmaður sigrar stakt myllubox
+                GridPane board = (GridPane) reitur.getParent();
                 updateBoardView(board);
                 model.setGlobalBoard(boardR, boardC);
-                checkWinner();
+                athugaSigurvegara();
             }
-            checkTie();
-            endTurn(squareR, squareC);
+            SKodaJafntefli();
+            endTurn(reiturL, reiturD);
         }
     }
 
-    // Determine if there are any valid moves left, if not, it's a tie game
-    private void checkTie() {
+    // Skoðar hvort leikur endi á jafntefli (forced draw)
+    private void SKodaJafntefli() {
         if (!model.validGameState()) {
-            // no valid moves left
-            nobodyWon();
+            enginnVann();
         }
     }
 
     // Determine if a player won the game
-    private void checkWinner() {
+    private void athugaSigurvegara() {
         if (model.globalBoardWinner()) {
-            // player won the game!
-            playerWon();
+            leikurUninn();
         }
     }
 
@@ -85,24 +83,23 @@ public class MylluController implements Initializable {
     }
 
     // view displayed if nobody won
-    private void nobodyWon() {
+    private void enginnVann() {
         Mylla.getChildren().clear();
         Mylla.getStyleClass().clear();
         Mylla.setStyle("-fx-background-color: #000000");
-        Label winner = new Label("TIE!");
+        Label winner = new Label("JAFNT!");
         updateLabel(winner);
     }
 
     // view displayed if a player won the game
-    private void playerWon() {
+    private void leikurUninn() {
         updateBoardView(Mylla);
-        Label winner = new Label("YOU WON!");
+        Label winner = new Label("ÞÚ VANNST!");
         updateLabel(winner);
     }
-
-    // sets view of the label correctly for end game
+    // Lagar label undir lok leiks
     private void updateLabel(Label label) {
-        label.setFont(new Font("Arial", 50));
+        label.setFont(new Font("Helvetica", 70));
         label.setTextFill(Paint.valueOf("WHITE"));
         label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(Double.MAX_VALUE);
@@ -111,10 +108,10 @@ public class MylluController implements Initializable {
     }
 
     // update the view when a valid button is pressed
-    private void updateSquareView(Button square) {
-        square.setStyle(model.getPlayerStyle());
-        square.setOpacity(100.0);
-        square.setDisable(true);
+    private void updateReitur(Button reitur) {
+        reitur.setStyle(model.getPlayerStyle());
+        reitur.setOpacity(100.0);
+        reitur.setDisable(true);
     }
 
     // update the view when a local board is won
