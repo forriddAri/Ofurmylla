@@ -12,14 +12,14 @@ public class MylluModel {
     // indices of the local board played on
     private int lastReiturL;
     private int lastReiturD;
-    private boolean currPlayer;
+    private boolean aLeik;
 
     public MylluModel() {
         ultimateBoard = new Boolean[DIM][DIM][DIM][DIM];
         Mylla = new Boolean[DIM][DIM];
         lastReiturL = DIM;
         lastReiturD = DIM;
-        currPlayer = true;
+        aLeik = true;
     }
 
     // Determine if a local board has is "tied" or not (i.e. no winner and no valid
@@ -37,9 +37,9 @@ public class MylluModel {
 
     // Determine if the game is still playable (i.e. still active moves)
     public boolean loglegtGameState() {
-        for (int boardRow = 0; boardRow < DIM; boardRow++) {
-            for (int boardCol = 0; boardCol < DIM; boardCol++) {
-                if (Mylla[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)) {
+        for (int bordLina = 0; bordLina < DIM; bordLina++) {
+            for (int bordDalkur = 0; bordDalkur < DIM; bordDalkur++) {
+                if (Mylla[bordLina][bordDalkur] == null && !localBoardFull(bordLina, bordDalkur)) {
                     return true;
                 }
             }
@@ -109,21 +109,21 @@ public class MylluModel {
 
     // Update local board value
     public void setLocalBoard(int boardRow, int boardCol, int spaceRow, int spaceCol) {
-        ultimateBoard[boardRow][boardCol][spaceRow][spaceCol] = currPlayer;
+        ultimateBoard[boardRow][boardCol][spaceRow][spaceCol] = aLeik;
     }
 
     // Update global board value
     public void setGlobalBoard(int boardRow, int boardCol) {
-        Mylla[boardRow][boardCol] = currPlayer;
+        Mylla[boardRow][boardCol] = aLeik;
     }
 
     // Change who the current player is
     public void togglePlayer() {
-        currPlayer = !currPlayer;
+        aLeik = !aLeik;
     }
 
     // Give the controller the current player's style
     public String getPlayerStyle() {
-        return currPlayer ? RED : BLUE;
+        return aLeik ? RED : BLUE;
     }
 }
