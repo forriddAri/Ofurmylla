@@ -1,32 +1,32 @@
 package hi.ofurmylla;
 public class MylluModel {
 
-    private static final int DIMENSIONS = 3;
+    private static final int DIM = 3;
     private static final String RED = "-fx-background-color: #0000ff";
     private static final String BLUE = "-fx-background-color: #ff0000";
 
     // Represents the entire board
     private final Boolean[][][][] ultimateBoard;
     // Represents just the global board (the 3 x 3 local boards)
-    private final Boolean[][] globalBoard;
+    private final Boolean[][] Mylla;
     // indices of the local board played on
-    private int lastBoardR;
-    private int lastBoardC;
+    private int lastReiturL;
+    private int lastReiturD;
     private boolean currPlayer;
 
     public MylluModel() {
-        ultimateBoard = new Boolean[DIMENSIONS][DIMENSIONS][DIMENSIONS][DIMENSIONS];
-        globalBoard = new Boolean[DIMENSIONS][DIMENSIONS];
-        lastBoardR = DIMENSIONS;
-        lastBoardC = DIMENSIONS;
+        ultimateBoard = new Boolean[DIM][DIM][DIM][DIM];
+        Mylla = new Boolean[DIM][DIM];
+        lastReiturL = DIM;
+        lastReiturD = DIM;
         currPlayer = true;
     }
 
     // Determine if a local board has is "tied" or not (i.e. no winner and no valid
     // moves)
     private boolean localBoardFull(int boardRow, int boardCol) {
-        for (int spaceRow = 0; spaceRow < DIMENSIONS; spaceRow++) {
-            for (int spaceCol = 0; spaceCol < DIMENSIONS; spaceCol++) {
+        for (int spaceRow = 0; spaceRow < DIM; spaceRow++) {
+            for (int spaceCol = 0; spaceCol < DIM; spaceCol++) {
                 if (ultimateBoard[boardRow][boardCol][spaceRow][spaceCol] == null) {
                     return false;
                 }
@@ -36,10 +36,10 @@ public class MylluModel {
     }
 
     // Determine if the game is still playable (i.e. still active moves)
-    public boolean validGameState() {
-        for (int boardRow = 0; boardRow < DIMENSIONS; boardRow++) {
-            for (int boardCol = 0; boardCol < DIMENSIONS; boardCol++) {
-                if (globalBoard[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)) {
+    public boolean loglegtGameState() {
+        for (int boardRow = 0; boardRow < DIM; boardRow++) {
+            for (int boardCol = 0; boardCol < DIM; boardCol++) {
+                if (Mylla[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)) {
                     return true;
                 }
             }
@@ -48,14 +48,14 @@ public class MylluModel {
     }
 
     // Set the new position of the allowed playable board/boards
-    public void setLastBoard(int row, int col) {
-        lastBoardR = row;
-        lastBoardC = col;
+    public void setLastBoard(int lina, int dalkur) {
+        lastReiturL = lina;
+        lastReiturD = dalkur;
         // edge case to check if a player has sent his opponent to an unplayable/invalid board
         // if so the opponent can move on any board not won/full
-        if (globalBoard[row][col] != null || localBoardFull(row, col)) {
-            lastBoardR = DIMENSIONS;
-            lastBoardC = DIMENSIONS;
+        if (Mylla[lina][dalkur] != null || localBoardFull(lina, dalkur)) {
+            lastReiturL = DIM;
+            lastReiturD = DIM;
         }
     }
 
@@ -68,20 +68,20 @@ public class MylluModel {
 
     // Determine if the local board is a valid/playable board
     public boolean validBoard(int boardRow, int boardCol) {
-        return (globalBoard[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)
-                && (lastBoardR == DIMENSIONS || boardRow == lastBoardR && boardCol == lastBoardC));
+        return (Mylla[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)
+                && (lastReiturL == DIM || boardRow == lastReiturL && boardCol == lastReiturD));
     }
 
     // Algorithm to check for a win (i.e. 3 in a row) of a 2D array
     private boolean boardWinner(Boolean[][] board) {
         // check horizontals
-        for (int row = 0; row < DIMENSIONS; row++) {
+        for (int row = 0; row < DIM; row++) {
             if (board[row][0] != null && board[row][0] == board[row][1] && board[row][0] == board[row][2]) {
                 return true;
             }
         }
         // check verticals
-        for (int col = 0; col < DIMENSIONS; col++) {
+        for (int col = 0; col < DIM; col++) {
             if (board[0][col] != null && board[0][col] == board[1][col] && board[0][col] == board[2][col]) {
                 return true;
             }
@@ -94,7 +94,7 @@ public class MylluModel {
 
     // Determine if a specific local board is won or not
     public boolean boardWon(int boardRow, int boardCol) {
-        return globalBoard[boardRow][boardCol] != null;
+        return Mylla[boardRow][boardCol] != null;
     }
 
     // Determine if someone won a local board
@@ -104,7 +104,7 @@ public class MylluModel {
 
     // Determine if someone won the game
     public boolean globalBoardWinner() {
-        return boardWinner(globalBoard);
+        return boardWinner(Mylla);
     }
 
     // Update local board value
@@ -114,7 +114,7 @@ public class MylluModel {
 
     // Update global board value
     public void setGlobalBoard(int boardRow, int boardCol) {
-        globalBoard[boardRow][boardCol] = currPlayer;
+        Mylla[boardRow][boardCol] = currPlayer;
     }
 
     // Change who the current player is

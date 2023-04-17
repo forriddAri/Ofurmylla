@@ -34,11 +34,11 @@ public class MylluController implements Initializable {
     public void handleButtonToggle(ActionEvent event) {
         // Takki sem ýtt er á
         Button reitur = (Button) event.getSource();
-        performMove(reitur);
+        geraLeik(reitur);
     }
 
     // Stjórna hvað gerist á leikborði
-    private void performMove(Button reitur) {
+    private void geraLeik(Button reitur) {
         int reiturL = GridPane.getRowIndex(reitur);
         int reiturD = GridPane.getColumnIndex(reitur);
         // Línu index í mylluboxi í notkun
@@ -63,26 +63,26 @@ public class MylluController implements Initializable {
 
     // Skoðar hvort leikur endi á jafntefli (forced draw)
     private void SKodaJafntefli() {
-        if (!model.validGameState()) {
+        if (!model.loglegtGameState()) {
             enginnVann();
         }
     }
 
-    // Determine if a player won the game
+    // Skoðar hvort leikur sé uninn
     private void athugaSigurvegara() {
         if (model.globalBoardWinner()) {
             leikurUninn();
         }
     }
 
-    // update logic for the next players turn
+    // Upfærir logic áður en næsti leikmaður á að gera
     private void endTurn(int nextBoardR, int nextBoardC) {
         model.setLastBoard(nextBoardR, nextBoardC);
         model.togglePlayer();
         highlightNextBoard();
     }
 
-    // view displayed if nobody won
+    // Texti ef enginn vinnur
     private void enginnVann() {
         Mylla.getChildren().clear();
         Mylla.getStyleClass().clear();
@@ -91,7 +91,7 @@ public class MylluController implements Initializable {
         updateLabel(winner);
     }
 
-    // view displayed if a player won the game
+    // Texti ef annar leikmanna sigrar
     private void leikurUninn() {
         updateBoardView(Mylla);
         Label winner = new Label("ÞÚ VANNST!");
@@ -114,7 +114,7 @@ public class MylluController implements Initializable {
         reitur.setDisable(true);
     }
 
-    // update the view when a local board is won
+    // Uppfærist þegar myllubox er unnið
     private void updateBoardView(GridPane board) {
         // update view
         board.getChildren().clear();
@@ -122,8 +122,7 @@ public class MylluController implements Initializable {
         board.setStyle(model.getPlayerStyle());
     }
 
-    // un-highlight previous boards and highlight the new playable local
-    // board/boards
+    // Sér um að highlighta rétt myllubox
     private void highlightNextBoard() {
         ObservableList<Node> boards = Mylla.getChildren();
         for (Node board : boards) {
