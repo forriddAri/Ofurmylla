@@ -45,19 +45,19 @@ public class MylluController implements Initializable {
         int boardR = GridPane.getRowIndex(reitur.getParent());
         // Dálka index af mylluboxi í notkun
         int boardC = GridPane.getColumnIndex(reitur.getParent());
-        if (model.validMove(boardR, boardC, reiturL, reiturD)) {
+        if (model.loglegtMove(boardR, boardC, reiturL, reiturD)) {
             // player moved
             updateReitur(reitur);
             model.setLocalBoard(boardR, boardC, reiturL, reiturD);
             if (model.localBoardWinner(boardR, boardC)) {
                 // Annarhvor leikmaður sigrar stakt myllubox
-                GridPane board = (GridPane) reitur.getParent();
-                updateBoardView(board);
+                GridPane bord = (GridPane) reitur.getParent();
+                updateBoardView(bord);
                 model.setGlobalBoard(boardR, boardC);
                 athugaSigurvegara();
             }
             SKodaJafntefli();
-            endTurn(reiturL, reiturD);
+            endaLeik(reiturL, reiturD);
         }
     }
 
@@ -70,13 +70,13 @@ public class MylluController implements Initializable {
 
     // Skoðar hvort leikur sé uninn
     private void athugaSigurvegara() {
-        if (model.globalBoardWinner()) {
+        if (model.mylluSigurvegari()) {
             leikurUninn();
         }
     }
 
     // Upfærir logic áður en næsti leikmaður á að gera
-    private void endTurn(int nextBoardR, int nextBoardC) {
+    private void endaLeik(int nextBoardR, int nextBoardC) {
         model.setLastBoard(nextBoardR, nextBoardC);
         model.togglePlayer();
         highlightNextBoard();
@@ -87,8 +87,8 @@ public class MylluController implements Initializable {
         Mylla.getChildren().clear();
         Mylla.getStyleClass().clear();
         Mylla.setStyle("-fx-background-color: #000000");
-        Label winner = new Label("JAFNT!");
-        updateLabel(winner);
+        Label sigurvegari = new Label("JAFNT!");
+        updateLabel(sigurvegari);
     }
 
     // Texti ef annar leikmanna sigrar
@@ -107,19 +107,18 @@ public class MylluController implements Initializable {
         Mylla.add(label, 1, 1);
     }
 
-    // update the view when a valid button is pressed
+    // update bords eftir að ýtt er á takka
     private void updateReitur(Button reitur) {
-        reitur.setStyle(model.getPlayerStyle());
+        reitur.setStyle(model.getTakn());
         reitur.setOpacity(100.0);
         reitur.setDisable(true);
     }
 
     // Uppfærist þegar myllubox er unnið
-    private void updateBoardView(GridPane board) {
-        // update view
-        board.getChildren().clear();
-        board.getStyleClass().clear();
-        board.setStyle(model.getPlayerStyle());
+    private void updateBoardView(GridPane bord) {
+        bord.getChildren().clear();
+        bord.getStyleClass().clear();
+        bord.setStyle(model.getTakn());
     }
 
     // Sér um að highlighta rétt myllubox
@@ -131,7 +130,7 @@ public class MylluController implements Initializable {
             if (!model.boardWon(boardRow, boardCol)) {
                 board.setStyle(TOMUR);
             }
-            if (model.validBoard(boardRow, boardCol)) {
+            if (model.loglegtBord(boardRow, boardCol)) {
                 board.setStyle(HIGHLIGHT);
             }
         }
