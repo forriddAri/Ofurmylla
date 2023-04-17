@@ -18,11 +18,11 @@ import java.util.ResourceBundle;
 public class MylluController implements Initializable {
 
     private static final String HIGHLIGHT = "-fx-background-color: #FFFFD4";
-    private static final String EMPTY = "-fx-background-color: #00000000";
+    private static final String TOMUR = "-fx-background-color: #00000000";
 
     private MylluModel model;
     @FXML
-    private GridPane globalBoard;
+    private GridPane Mylla;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -86,16 +86,16 @@ public class MylluController implements Initializable {
 
     // view displayed if nobody won
     private void nobodyWon() {
-        globalBoard.getChildren().clear();
-        globalBoard.getStyleClass().clear();
-        globalBoard.setStyle("-fx-background-color: #000000");
+        Mylla.getChildren().clear();
+        Mylla.getStyleClass().clear();
+        Mylla.setStyle("-fx-background-color: #000000");
         Label winner = new Label("TIE!");
         updateLabel(winner);
     }
 
     // view displayed if a player won the game
     private void playerWon() {
-        updateBoardView(globalBoard);
+        updateBoardView(Mylla);
         Label winner = new Label("YOU WON!");
         updateLabel(winner);
     }
@@ -107,7 +107,7 @@ public class MylluController implements Initializable {
         label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(Double.MAX_VALUE);
         label.setAlignment(Pos.CENTER);
-        globalBoard.add(label, 1, 1);
+        Mylla.add(label, 1, 1);
     }
 
     // update the view when a valid button is pressed
@@ -128,12 +128,12 @@ public class MylluController implements Initializable {
     // un-highlight previous boards and highlight the new playable local
     // board/boards
     private void highlightNextBoard() {
-        ObservableList<Node> boards = globalBoard.getChildren();
+        ObservableList<Node> boards = Mylla.getChildren();
         for (Node board : boards) {
             int boardRow = GridPane.getRowIndex(board);
             int boardCol = GridPane.getColumnIndex(board);
             if (!model.boardWon(boardRow, boardCol)) {
-                board.setStyle(EMPTY);
+                board.setStyle(TOMUR);
             }
             if (model.validBoard(boardRow, boardCol)) {
                 board.setStyle(HIGHLIGHT);
