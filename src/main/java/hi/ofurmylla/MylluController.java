@@ -49,10 +49,10 @@ public class MylluController implements Initializable {
             // player moved
             updateReitur(reitur);
             model.setLocalBoard(boardR, boardC, reiturL, reiturD);
-            if (model.localBoardWinner(boardR, boardC)) {
+            if (model.localBoardSigurvegari(boardR, boardC)) {
                 // Annarhvor leikmaður sigrar stakt myllubox
                 GridPane bord = (GridPane) reitur.getParent();
-                updateBoardView(bord);
+                updateBordView(bord);
                 model.setGlobalBoard(boardR, boardC);
                 athugaSigurvegara();
             }
@@ -93,9 +93,9 @@ public class MylluController implements Initializable {
 
     // Texti ef annar leikmanna sigrar
     private void leikurUninn() {
-        updateBoardView(Mylla);
-        Label winner = new Label("ÞÚ VANNST!");
-        updateLabel(winner);
+        updateBordView(Mylla);
+        Label sigurvegari = new Label("ÞÚ VANNST!");
+        updateLabel(sigurvegari);
     }
     // Lagar label undir lok leiks
     private void updateLabel(Label label) {
@@ -107,7 +107,7 @@ public class MylluController implements Initializable {
         Mylla.add(label, 1, 1);
     }
 
-    // update bords eftir að ýtt er á takka
+    // updatea borð eftir að ýtt er á takka
     private void updateReitur(Button reitur) {
         reitur.setStyle(model.getTakn());
         reitur.setOpacity(100.0);
@@ -115,7 +115,7 @@ public class MylluController implements Initializable {
     }
 
     // Uppfærist þegar myllubox er unnið
-    private void updateBoardView(GridPane bord) {
+    private void updateBordView(GridPane bord) {
         bord.getChildren().clear();
         bord.getStyleClass().clear();
         bord.setStyle(model.getTakn());
@@ -127,7 +127,7 @@ public class MylluController implements Initializable {
         for (Node board : boards) {
             int boardRow = GridPane.getRowIndex(board);
             int boardCol = GridPane.getColumnIndex(board);
-            if (!model.boardWon(boardRow, boardCol)) {
+            if (!model.bordUnnid(boardRow, boardCol)) {
                 board.setStyle(TOMUR);
             }
             if (model.loglegtBord(boardRow, boardCol)) {

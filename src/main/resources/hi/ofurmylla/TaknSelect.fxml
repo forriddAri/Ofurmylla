@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="748.0" prefWidth="1300.0" styleClass="grid" stylesheets="@taknSelect.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.ofurmylla.TaknSelectController">
+<AnchorPane prefHeight="1000.0" prefWidth="1899.0" styleClass="grid" stylesheets="@taknSelect.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.ofurmylla.TaknSelectController">
    <children>
-      <GridPane layoutX="13.0" layoutY="142.0" prefHeight="583.0" prefWidth="1275.0">
+      <GridPane layoutX="312.0" layoutY="283.0" prefHeight="583.0" prefWidth="1275.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -46,29 +45,30 @@
             </ImageView>
             <ImageView fitHeight="421.0" fitWidth="426.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../../../../../PipeMania/src/sample/assets/Noxus%20Crest.png" />
+                  <Image url="@../../assets/Noxus%20Crest.png" />
                </image>
             </ImageView>
-            <Button fx:id="demaciaButton" mnemonicParsing="false" onMouseClicked="#VeljaDemacia" onMouseEntered="#hoveringDemacia" onMouseExited="#hoverExitDemacia" prefHeight="432.0" prefWidth="425.0" text="Button" visible="false" GridPane.rowIndex="1" />
-            <ImageView fitHeight="425.0" fitWidth="426.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView fitHeight="425.0" fitWidth="425.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../assets/Shurima%20Crest%20(2).png" />
+                  <Image url="@../../assets/Shurima%20Crest.png" />
                </image>
             </ImageView>
-            <Button fx:id="noxusButton" mnemonicParsing="false" onMouseClicked="#VeljaNoxus" onMouseEntered="#hoveringNoxus" onMouseExited="#hoverExitNoxus" prefHeight="432.0" prefWidth="425.0" text="Button" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="shurimaButton" mnemonicParsing="false" onMouseClicked="#VeljaShurima" onMouseEntered="#hoveringShurima" onMouseExited="#hoverExitShurima" prefHeight="432.0" prefWidth="425.0" text="Button" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label layoutX="426.0" layoutY="-7.0" text=" Veljið tákn!">
+      <Label layoutX="725.0" layoutY="134.0" text=" Veljið tákn!">
          <font>
             <Font size="96.0" />
          </font>
       </Label>
-      <Label fx:id="Leikmadur1Demacia" layoutX="122.0" layoutY="125.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
-      <Label fx:id="Leikmadur2Demacia" layoutX="244.0" layoutY="125.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
-      <Label fx:id="Leikmadur1Noxus" layoutX="531.0" layoutY="125.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
-      <Label fx:id="Leikmadur1Shurima" layoutX="987.0" layoutY="126.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
-      <Label fx:id="Leikmadur2Shurima" layoutX="1113.0" layoutY="125.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
-      <Label fx:id="Leikmadur2Noxus" layoutX="682.0" layoutY="126.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
+      <Label fx:id="Leikmadur1Demacia" layoutX="421.0" layoutY="266.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
+      <Label fx:id="Leikmadur2Demacia" layoutX="543.0" layoutY="266.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
+      <Label fx:id="Leikmadur1Noxus" layoutX="830.0" layoutY="266.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
+      <Label fx:id="Leikmadur1Shurima" layoutX="1286.0" layoutY="267.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
+      <Label fx:id="Leikmadur2Shurima" layoutX="1412.0" layoutY="266.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
+      <Label fx:id="Leikmadur2Noxus" layoutX="981.0" layoutY="267.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
+      <Button fx:id="noxusButton" layoutX="882.0" layoutY="886.0" mnemonicParsing="false" onMouseClicked="#VeljaNoxus" onMouseEntered="#hoveringNoxus" onMouseExited="#hoverExitNoxus" prefHeight="53.0" prefWidth="136.0" text="Velja Noxus!" />
+      <Button fx:id="shurimaButton" layoutX="1297.0" layoutY="884.0" mnemonicParsing="false" onMouseClicked="#VeljaShurima" onMouseEntered="#hoveringShurima" onMouseExited="#hoverExitShurima" prefHeight="57.0" prefWidth="136.0" text="Velja Shurima!" />
+      <Button fx:id="demaciaButton" layoutX="454.0" layoutY="888.0" mnemonicParsing="false" onMouseClicked="#VeljaDemacia" onMouseEntered="#hoveringDemacia" onMouseExited="#hoverExitDemacia" prefHeight="49.0" prefWidth="136.0" text="Velja Demacia!" />
+      <Button fx:id="aframButton" layoutX="885.0" layoutY="952.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="34.0" prefWidth="136.0" text="Áfram" visible="false" />
    </children>
 </AnchorPane>

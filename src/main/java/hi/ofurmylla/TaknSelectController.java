@@ -1,5 +1,6 @@
 package hi.ofurmylla;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 
 
 public class TaknSelectController {
+
+    public static String Takn1;
+    public static String Takn2;
 
     private int leikamadur = 0;
 
@@ -35,9 +39,14 @@ public class TaknSelectController {
         if (leikamadur == 0) {
             Leikmadur1Demacia.setVisible(true);
             leikamadur++;
+            Takn1 = "-fx-background-image: Demacia Crest.png";
         }
-        else {
+        else  {
             Leikmadur2Demacia.setVisible(true);
+            Takn2 = "-fx-background-image: Demacia Crest.png";
+            aframButton.setVisible(true);
+            noxusButton.setDisable(true);
+            shurimaButton.setDisable(true);
         }
         demaciaButton.setDisable(true);
     }
@@ -46,26 +55,34 @@ public class TaknSelectController {
     void VeljaNoxus(MouseEvent event) {
         if (leikamadur == 0) {
             Leikmadur1Noxus.setVisible(true);
+            Takn1 = "-fx-background-image: Noxus Crest.png";
             leikamadur++;
         }
         else {
             Leikmadur2Noxus.setVisible(true);
+            Takn2 = "-fx-background-image: Noxus Crest.png";
+            aframButton.setVisible(true);
+            demaciaButton.setDisable(true);
+            shurimaButton.setDisable(true);
         }
         noxusButton.setDisable(true);
-
     }
 
     @FXML
     void VeljaShurima(MouseEvent event) {
         if (leikamadur == 0) {
             Leikmadur1Shurima.setVisible(true);
+            Takn1 = "-fx-background-image: Shurima Crest.png";
             leikamadur++;
         }
         else {
             Leikmadur2Shurima.setVisible(true);
+            Takn2 = "-fx-background-image: Shurima Crest.png";
+            aframButton.setVisible(true);
+            demaciaButton.setDisable(true);
+            noxusButton.setDisable(true);
         }
         shurimaButton.setDisable(true);
-
     }
     @FXML
     private Button demaciaButton;
@@ -96,7 +113,7 @@ public class TaknSelectController {
 
     @FXML
     void hoveringDemacia(MouseEvent event) {
-        noxusButton.styleProperty().set("-fx-background-color: #3399FF");
+        demaciaButton.styleProperty().set("-fx-background-color: #3399FF");
 
     }
 
@@ -110,6 +127,17 @@ public class TaknSelectController {
         shurimaButton.styleProperty().set("-fx-background-color: #FFFF00");
 
     }
+
+    @FXML
+    private Button aframButton;
+
+    @FXML
+    void nextScene(ActionEvent event) {
+        ViewSwitcher.switchTo(View.MAIN);
+
+    }
+
+
 
 }
 

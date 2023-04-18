@@ -2,9 +2,10 @@ package hi.ofurmylla;
 public class MylluModel {
 
     private static final int DIM = 3;
-    private static final String TAKN1 = "-fx-background-color: #0000ff";
-    private static final String TAKN2 = "-fx-background-color: #ff0000";
 
+    public String TAKN1 = "-fx-background-color: #3399FF";
+    public String TAKN2 = "-fx-background-color: #FF3333";
+    
     // Represents the entire board
     private final Boolean[][][][] ultimateBoard;
     // Represents just the global board (the 3 x 3 local boards)
@@ -64,13 +65,13 @@ public class MylluModel {
         return (loglegtBord(boardRow, boardCol) && spaceOpen);
     }
 
-    // Determine if the local board is a valid/playable board
+    // Skoða hvort borð sé unnið
     public boolean loglegtBord(int boardRow, int boardCol) {
         return (Mylla[boardRow][boardCol] == null && !localBoardFull(boardRow, boardCol)
                 && (lastReiturL == DIM || boardRow == lastReiturL && boardCol == lastReiturD));
     }
 
-    // Algorithm to check for a win (i.e. 3 in a row) of a 2D array
+    // Skoða sigurvegara
     private boolean bordWinner(Boolean[][] board) {
         // Skoðar láréttar myllur
         for (int row = 0; row < DIM; row++) {
@@ -90,17 +91,17 @@ public class MylluModel {
                 || (board[0][2] != null && board[0][2] == board[1][1] && board[0][2] == board[2][0]);
     }
 
-    // Determine if a specific local board is won or not
-    public boolean boardWon(int boardRow, int boardCol) {
-        return Mylla[boardRow][boardCol] != null;
+    // Skoða hvort borð sé unnið
+    public boolean bordUnnid(int bordLina, int bordDalkur) {
+        return Mylla[bordLina][bordDalkur] != null;
     }
 
-    // Determine if someone won a local board
-    public boolean localBoardWinner(int boardR, int boardC) {
-        return (bordWinner(ultimateBoard[boardR][boardC]));
+    // Sjá hvort local borð sé unnið
+    public boolean localBoardSigurvegari(int boardL, int boardD) {
+        return (bordWinner(ultimateBoard[boardL][boardD]));
     }
 
-    // Skoða hvort lleikur sé uninn
+    // Skoða hvort leikur sé uninn
     public boolean mylluSigurvegari() {
         return bordWinner(Mylla);
     }
