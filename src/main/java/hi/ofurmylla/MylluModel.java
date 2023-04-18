@@ -5,7 +5,7 @@ public class MylluModel {
 
     public String TAKN1 = "-fx-background-color: #3399FF";
     public String TAKN2 = "-fx-background-color: #FF3333";
-    
+
     // Represents the entire board
     private final Boolean[][][][] ultimateBoard;
     // Represents just the global board (the 3 x 3 local boards)
