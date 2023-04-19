@@ -8,25 +8,44 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+
 
 public class MylluController implements Initializable {
 
+    public String Player1 = TaknSelectController.Player1;
+    public String Player2 = TaknSelectController.Player2;
     private static final String HIGHLIGHT = "-fx-background-color: #FFFFD4";
     private static final String TOMUR = "-fx-background-color: #00000000";
+    public static int turn = 0;
+    public static int winner;
 
     private MylluModel model;
     @FXML
     private GridPane Mylla;
 
+    @FXML
+    private Button aframButton;
+
+    @FXML
+    void nextScene(ActionEvent event) {
+        ViewSwitcher.switchTo(View.STIG);
+        aframButton.setVisible(false);
+        turn = 0;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        model = new MylluModel();
+        model = new MylluModel(Player1, Player2);
         highlightNextBoard();
     }
 
@@ -35,6 +54,7 @@ public class MylluController implements Initializable {
         // Takki sem ýtt er á
         Button reitur = (Button) event.getSource();
         geraLeik(reitur);
+        turn++;
     }
 
     // Stjórna hvað gerist á leikborði
@@ -89,27 +109,34 @@ public class MylluController implements Initializable {
         Mylla.setStyle("-fx-background-color: #000000");
         Label sigurvegari = new Label("JAFNT!");
         updateLabel(sigurvegari);
+        aframButton.setVisible(true);
     }
 
     // Texti ef annar leikmanna sigrar
     private void leikurUninn() {
         updateBordView(Mylla);
         Label sigurvegari = new Label("ÞÚ VANNST!");
+        aframButton.setVisible(true);
         updateLabel(sigurvegari);
+        winner = turn;
     }
     // Lagar label undir lok leiks
     private void updateLabel(Label label) {
         label.setFont(new Font("Helvetica", 70));
-        label.setTextFill(Paint.valueOf("WHITE"));
+        label.setTextFill(Paint.valueOf("BLACK"));
         label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(Double.MAX_VALUE);
-        label.setAlignment(Pos.CENTER);
+        label.setAlignment(Pos.BOTTOM_CENTER);
         Mylla.add(label, 1, 1);
+
+
     }
 
     // updatea borð eftir að ýtt er á takka
     private void updateReitur(Button reitur) {
-        reitur.setStyle(model.getTakn());
+        ImageView imageView = (ImageView) reitur.getGraphic();
+        Image newImage = model.getTakn();
+        imageView.setImage(newImage);
         reitur.setOpacity(100.0);
         reitur.setDisable(true);
     }
@@ -117,8 +144,9 @@ public class MylluController implements Initializable {
     // Uppfærist þegar myllubox er unnið
     private void updateBordView(GridPane bord) {
         bord.getChildren().clear();
-        bord.getStyleClass().clear();
-        bord.setStyle(model.getTakn());
+       BackgroundImage bgImage = new BackgroundImage(model.getTakn(),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(900, 900, true, true, true, false));
+       bord.setBackground(new Background(bgImage));
+
     }
 
     // Sér um að highlighta rétt myllubox
@@ -135,4 +163,5 @@ public class MylluController implements Initializable {
             }
         }
     }
+
 }

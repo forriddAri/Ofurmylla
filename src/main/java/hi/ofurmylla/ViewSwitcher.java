@@ -26,20 +26,11 @@ public class ViewSwitcher {
 
         try {
             Parent root;
-
-            if (cache.containsKey(view)) {
-                System.out.println("Loading from cache");
-
-                root = cache.get(view);
-            } else {
                 System.out.println("Loading from FXML");
 
                 root = FXMLLoader.load(
                         ViewSwitcher.class.getResource(view.getFileName())
                 );
-
-                cache.put(view, root);
-            }
 
             scene.setRoot(root);
 

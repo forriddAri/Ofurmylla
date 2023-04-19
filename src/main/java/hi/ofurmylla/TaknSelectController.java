@@ -11,8 +11,8 @@ import javafx.scene.input.MouseEvent;
 
 public class TaknSelectController {
 
-    public static String Takn1;
-    public static String Takn2;
+    public static String Player1;
+    public static String Player2;
 
     private int leikamadur = 0;
 
@@ -39,14 +39,15 @@ public class TaknSelectController {
         if (leikamadur == 0) {
             Leikmadur1Demacia.setVisible(true);
             leikamadur++;
-            Takn1 = "-fx-background-image: Demacia Crest.png";
+            Player1 = "Demacia";
         }
         else  {
             Leikmadur2Demacia.setVisible(true);
-            Takn2 = "-fx-background-image: Demacia Crest.png";
+            Player2 = "Demacia";
             aframButton.setVisible(true);
             noxusButton.setDisable(true);
             shurimaButton.setDisable(true);
+            leikamadur--;
         }
         demaciaButton.setDisable(true);
     }
@@ -55,15 +56,16 @@ public class TaknSelectController {
     void VeljaNoxus(MouseEvent event) {
         if (leikamadur == 0) {
             Leikmadur1Noxus.setVisible(true);
-            Takn1 = "-fx-background-image: Noxus Crest.png";
+            Player1 = "Noxus";
             leikamadur++;
         }
         else {
             Leikmadur2Noxus.setVisible(true);
-            Takn2 = "-fx-background-image: Noxus Crest.png";
+            Player2 = "Noxus";
             aframButton.setVisible(true);
             demaciaButton.setDisable(true);
             shurimaButton.setDisable(true);
+            leikamadur--;
         }
         noxusButton.setDisable(true);
     }
@@ -72,15 +74,16 @@ public class TaknSelectController {
     void VeljaShurima(MouseEvent event) {
         if (leikamadur == 0) {
             Leikmadur1Shurima.setVisible(true);
-            Takn1 = "-fx-background-image: Shurima Crest.png";
+            Player1 = "Shurima";
             leikamadur++;
         }
         else {
             Leikmadur2Shurima.setVisible(true);
-            Takn2 = "-fx-background-image: Shurima Crest.png";
+            Player2 = "Shurima";
             aframButton.setVisible(true);
             demaciaButton.setDisable(true);
             noxusButton.setDisable(true);
+            leikamadur--;
         }
         shurimaButton.setDisable(true);
     }
@@ -134,7 +137,6 @@ public class TaknSelectController {
     @FXML
     void nextScene(ActionEvent event) {
         ViewSwitcher.switchTo(View.MAIN);
-
     }
 
 

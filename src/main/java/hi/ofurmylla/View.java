@@ -2,9 +2,9 @@ package hi.ofurmylla;
 
 
 public enum View {
-    LOGIN("TaknSelect.fxml"),
+    VELJA("TaknSelect.fxml"),
     MAIN("Mylla.fxml"),
-    ABOUT("about.fxml");
+    STIG("EndScreen.fxml");
 
     private String fileName;
 

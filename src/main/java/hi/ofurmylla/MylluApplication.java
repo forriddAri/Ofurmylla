@@ -12,7 +12,7 @@ public class MylluApplication extends Application {
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(new Pane(), 1920, 1000);
         ViewSwitcher.setScene(scene);
-        ViewSwitcher.switchTo(View.LOGIN);
+        ViewSwitcher.switchTo(View.VELJA);
         //FXMLLoader fxmlLoader = new FXMLLoader(MylluApplication.class.getResource("TaknSelect.fxml"));
         //Scene scene = new Scene(fxmlLoader.load(), 1920, 1000);
         stage.setTitle("League of Mylla!");

@@ -1,10 +1,15 @@
 package hi.ofurmylla;
+
+import javafx.scene.image.Image;
+
 public class MylluModel {
 
     private static final int DIM = 3;
 
-    public String TAKN1 = "-fx-background-color: #3399FF";
-    public String TAKN2 = "-fx-background-color: #FF3333";
+    private Image Player1 = new Image(getClass().getResource("/assets/DemaciaCrest.png").toExternalForm());;
+    private Image Player2 = new Image(getClass().getResource("/assets/DemaciaCrest.png").toExternalForm());;
+
+
 
     // Represents the entire board
     private final Boolean[][][][] ultimateBoard;
@@ -15,12 +20,14 @@ public class MylluModel {
     private int lastReiturD;
     private boolean aLeik;
 
-    public MylluModel() {
+    public MylluModel(String P1, String P2) {
         ultimateBoard = new Boolean[DIM][DIM][DIM][DIM];
         Mylla = new Boolean[DIM][DIM];
         lastReiturL = DIM;
         lastReiturD = DIM;
         aLeik = true;
+        Player1 = new Image(getClass().getResource("/assets/" + P1 + "Crest.png").toExternalForm());
+        Player2 = new Image(getClass().getResource("/assets/" + P2 + "Crest.png").toExternalForm());
     }
 
     // Skoðar hvort það sé jafntefli
@@ -122,7 +129,25 @@ public class MylluModel {
     }
 
     // SKoðar hver á að gera
-    public String getTakn() {
-        return aLeik ? TAKN1 : TAKN2;
+    public Image getTakn() {
+        return aLeik ? Player1 : Player2;
     }
+
+    public void resetModel() {
+        for (int i = 0; i < DIM; i++) {
+            for (int j = 0; j < DIM; j++) {
+                for (int k = 0; k < DIM; k++) {
+                    for (int l = 0; l < DIM; l++) {
+                        ultimateBoard[i][j][k][l] = null;
+                    }
+                }
+                Mylla[i][j] = null;
+            }
+        }
+        lastReiturL = DIM;
+        lastReiturD = DIM;
+        aLeik = true;
+    }
+
+
 }

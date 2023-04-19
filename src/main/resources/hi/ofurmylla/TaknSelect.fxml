@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1899.0" styleClass="grid" stylesheets="@taknSelect.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.ofurmylla.TaknSelectController">
+<AnchorPane prefHeight="1000.0" prefWidth="1899.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.ofurmylla.TaknSelectController">
    <children>
       <GridPane layoutX="312.0" layoutY="283.0" prefHeight="583.0" prefWidth="1275.0">
         <columnConstraints>
@@ -40,17 +40,17 @@
             </Label>
             <ImageView fitHeight="422.0" fitWidth="427.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../assets/Demacia%20Crest.png" />
+                  <Image url="@../../assets/DemaciaCrest.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="421.0" fitWidth="426.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../assets/Noxus%20Crest.png" />
+                  <Image url="@../../assets/NoxusCrest.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="425.0" fitWidth="425.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../../assets/Shurima%20Crest.png" />
+                  <Image url="@../../assets/ShurimaCrest.png" />
                </image>
             </ImageView>
          </children>
