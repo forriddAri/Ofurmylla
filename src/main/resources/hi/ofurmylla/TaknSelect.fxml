@@ -61,11 +61,11 @@
          </font>
       </Label>
       <Label fx:id="Leikmadur1Demacia" layoutX="421.0" layoutY="266.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
-      <Label fx:id="Leikmadur2Demacia" layoutX="543.0" layoutY="266.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
+      <Label fx:id="Leikmadur2Demacia" layoutX="543.0" layoutY="266.0" style="-fx-background-color: red;" text="Leikmaður 2" textFill="WHITE" visible="false" />
       <Label fx:id="Leikmadur1Noxus" layoutX="830.0" layoutY="266.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
       <Label fx:id="Leikmadur1Shurima" layoutX="1286.0" layoutY="267.0" prefHeight="17.0" prefWidth="65.0" style="-fx-background-color: blue;" text="Leikmaður 1" textFill="WHITE" visible="false" />
-      <Label fx:id="Leikmadur2Shurima" layoutX="1412.0" layoutY="266.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
-      <Label fx:id="Leikmadur2Noxus" layoutX="981.0" layoutY="267.0" style="-fx-background-color: red;" text="Leikmaður 2" visible="false" />
+      <Label fx:id="Leikmadur2Shurima" layoutX="1412.0" layoutY="266.0" style="-fx-background-color: red;" text="Leikmaður 2" textFill="WHITE" visible="false" />
+      <Label fx:id="Leikmadur2Noxus" layoutX="981.0" layoutY="267.0" style="-fx-background-color: red;" text="Leikmaður 2" textFill="WHITE" visible="false" />
       <Button fx:id="noxusButton" layoutX="882.0" layoutY="886.0" mnemonicParsing="false" onMouseClicked="#VeljaNoxus" onMouseEntered="#hoveringNoxus" onMouseExited="#hoverExitNoxus" prefHeight="53.0" prefWidth="136.0" text="Velja Noxus!" />
       <Button fx:id="shurimaButton" layoutX="1297.0" layoutY="884.0" mnemonicParsing="false" onMouseClicked="#VeljaShurima" onMouseEntered="#hoveringShurima" onMouseExited="#hoverExitShurima" prefHeight="57.0" prefWidth="136.0" text="Velja Shurima!" />
       <Button fx:id="demaciaButton" layoutX="454.0" layoutY="888.0" mnemonicParsing="false" onMouseClicked="#VeljaDemacia" onMouseEntered="#hoveringDemacia" onMouseExited="#hoverExitDemacia" prefHeight="49.0" prefWidth="136.0" text="Velja Demacia!" />

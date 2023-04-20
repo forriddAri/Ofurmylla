@@ -106,7 +106,7 @@ public class MylluController implements Initializable {
     private void enginnVann() {
         Mylla.getChildren().clear();
         Mylla.getStyleClass().clear();
-        Mylla.setStyle("-fx-background-color: #000000");
+        Mylla.setStyle("-fx-background-color: #FFFFFF");
         Label sigurvegari = new Label("JAFNT!");
         updateLabel(sigurvegari);
         aframButton.setVisible(true);
@@ -153,12 +153,12 @@ public class MylluController implements Initializable {
     private void highlightNextBoard() {
         ObservableList<Node> boards = Mylla.getChildren();
         for (Node board : boards) {
-            int boardRow = GridPane.getRowIndex(board);
-            int boardCol = GridPane.getColumnIndex(board);
-            if (!model.bordUnnid(boardRow, boardCol)) {
+            int boardLina = GridPane.getRowIndex(board);
+            int boardDalkur = GridPane.getColumnIndex(board);
+            if (!model.bordUnnid(boardLina, boardDalkur)) {
                 board.setStyle(TOMUR);
             }
-            if (model.loglegtBord(boardRow, boardCol)) {
+            if (model.loglegtBord(boardLina, boardDalkur)) {
                 board.setStyle(HIGHLIGHT);
             }
         }

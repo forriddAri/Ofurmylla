@@ -34,6 +34,7 @@ public class TaknSelectController {
     @FXML
     private Label Leikmadur2Shurima;
 
+    //setur Demacia sem takn spilara 1 eða 2
     @FXML
     void VeljaDemacia(MouseEvent event) {
         if (leikamadur == 0) {
@@ -52,6 +53,7 @@ public class TaknSelectController {
         demaciaButton.setDisable(true);
     }
 
+    //setur noxus sem takn spilara 1 eða 2
     @FXML
     void VeljaNoxus(MouseEvent event) {
         if (leikamadur == 0) {
@@ -70,6 +72,7 @@ public class TaknSelectController {
         noxusButton.setDisable(true);
     }
 
+    //setur shurima sem takn spilara 1 eða 2
     @FXML
     void VeljaShurima(MouseEvent event) {
         if (leikamadur == 0) {
